@@ -10,6 +10,8 @@ interface IUser {
   phone: number;
 }
 
-type UserGetters<T> = any; // NOT IMPLEMENTED
+type UserGetters<T> = {
+  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];
+}; // NOT IMPLEMENTED
 
 type F = UserGetters<IUser>; // { getName: () => string; getPhone: () => number }
