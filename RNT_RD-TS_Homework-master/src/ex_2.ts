@@ -4,7 +4,7 @@
     2.	Если передана не функция, то результат unknown
 */
 
-type GetFunctionTypes<T> = any; // NOT IMPLEMENTED
+type GetFunctionTypes<T> = T extends (...args: infer Args) => infer Return ? [Args, Return] : unknown; // NOT IMPLEMENTED
 
 function func(a: string): number {
   return 1;
@@ -18,7 +18,7 @@ type B = GetFunctionTypes<string>; // unknown
   Напишите GetUserType тип, который бы работал следующим образом:
  */
 
-type GetUserType<T> = any; // NOT IMPLEMENTED
+type GetUserType<T> = T extends {user: infer itemType} ? itemType : unknown; // NOT IMPLEMENTED
 
 type C = GetUserType<string>; // unknown
 type D = GetUserType<{ user: string }>; // string
