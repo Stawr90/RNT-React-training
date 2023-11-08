@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "jsx": "react", 
+        "target": "es2016",
+        "module": "commonjs", 
+        "noEmitOnError": true, 
+        "outDir": "./dist/", 
+        "removeComments": true, 
+        "allowJs": true
+    },
+    "files": [
+        "./src/index.ts" // Entry point
+    ]
+}

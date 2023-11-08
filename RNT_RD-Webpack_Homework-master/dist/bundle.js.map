@@ -1,0 +1,1 @@
+{"version":3,"file":"bundle.js","mappings":"AACAA,QAAQC,IADW","sources":["webpack://rnt_rd-webpack_homework-master/./src/index.ts"],"sourcesContent":["const myGreeting = 'Start Webpack!';\nconsole.log(myGreeting);\n"],"names":["console","log"],"sourceRoot":""}
