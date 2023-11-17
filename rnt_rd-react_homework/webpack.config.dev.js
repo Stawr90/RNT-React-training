@@ -1,13 +1,14 @@
 const path = require('path');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.ts',
+    entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
     },
-    // watch: true,
     devtool: 'source-map',
     module: {
         rules: [
@@ -30,23 +31,28 @@ module.exports = {
             use: ["style-loader", "css-loader"],
         },
         {
+            test: /\.scss$/,
+            use: [
+              'style-loader',
+              'css-loader',
+              'sass-loader'
+            ]
+        },
+        {
             test: /\.(woff2?|eot|ttf|otf)$/i,
             type: 'asset/resource',
         },
         {
-            test: /\.(png|jpe?g|gif|svg)$/i,
-            type: 'asset/resource',
-            generator: {
-              filename: 'images/[name][ext]',
+          test: /\.(png|jpe?g|gif)$/i,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                outputPath: 'resources/img',
+              }
             },
-            use: [
-              {
-                loader: 'url-loader',
-                options: {
-                  limit: 8192,
-                },
-              },
-            ],
+          ],
         },
         {
             test: /\.(?:js|mjs|cjs)$/,
@@ -63,8 +69,15 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
+        modules: [path.resolve(__dirname, './src'), 'node_modules'],
+        extensions: [".*", ".js", ".jsx", ".ts", ".tsx", ".scss"],
     },
+    plugins: [
+      new CleanWebpackPlugin(),
+      new HtmlWebpackPlugin({
+          template: "./public/index.html"
+      })
+    ],
     devServer: {
         static: {
             directory: path.join(__dirname, 'dist'),
