@@ -22,7 +22,7 @@ const AppHeader = () => {
                     <div className="form__radiobtn">
                         <span>search by</span>
                         <div className="form_radio_btn">
-                            <input id="radio-1" type="radio" name="radio" value="1" checked/>
+                            <input id="radio-1" type="radio" name="radio" value="1" defaultChecked/>
                             <label htmlFor="radio-1">title</label>
                         </div>
                         <div className="form_radio_btn">
