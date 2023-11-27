@@ -10,11 +10,15 @@ interface IFilms {
     date: number | string;
 }
 
-const MovieCard = ({movie}: {movie: IFilms}) => {
-    const {id, img, title, genre, date} = movie;
+type TMovie = {
+    movie: IFilms;
+}
+
+const MovieCard = ({movie}: TMovie) => {
+    const {img, title, genre, date} = movie;
 
     return (
-        <li key={id} className="card">
+        <li className="card">
             <div className="card__img">
                 <img src={img} alt={title} />
             </div>

@@ -1,6 +1,5 @@
 .list {
-    margin-top: 60px;
-    padding: 0px 120px;
+    padding: 60px 120px;
     &__movies {
         display: grid;
         grid-template-columns: repeat(auto-fill, 360px);

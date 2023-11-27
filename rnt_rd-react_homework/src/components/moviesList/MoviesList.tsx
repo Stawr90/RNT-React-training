@@ -16,7 +16,7 @@ const MoviesList = () => {
             <div className="list">
                 <ul className="list__movies">
                     {moviesDb.movies.map(item => (
-                        <MovieCard movie={item}/>
+                        <MovieCard key={item.id} movie={item}/>
                     ))}
                 </ul>
             </div>

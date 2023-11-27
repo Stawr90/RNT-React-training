@@ -2,7 +2,11 @@ import React from 'react';
 
 import './headerList.scss';
 
-const HeaderList = ({found}: {found: number}) => {
+interface ICounter {
+    found: number;
+}
+
+const HeaderList = ({found}: ICounter) => {
     return (
         <div className="headerlist">
             <div className="headerlist__movies"> {found} movies found</div>
