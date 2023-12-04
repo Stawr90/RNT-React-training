@@ -17,10 +17,10 @@ type TMovie = {
 
 const MovieCard = ({movie}: TMovie) => {
     const {id, img, title, genre, date} = movie;
-    const {onShowInfoCard} = useCharMovies();
+    const {charInfoCard} = useCharMovies();
 
     return (
-        <li className="card" onClick={(event) => onShowInfoCard(event, id)}>
+        <li className="card" onClick={() => charInfoCard(id)}>
             <div className="card__img">
                 <img src={img} alt={title} />
             </div>

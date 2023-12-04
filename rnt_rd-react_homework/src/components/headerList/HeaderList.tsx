@@ -8,18 +8,22 @@ interface ICounter {
 }
 
 const HeaderList = ({found}: ICounter) => {
-	const {sortDate, sortTitle, styleBtn} = useCharMovies();
-
-	const colorDate = styleBtn && styleBtn !== null ? {color: 'rgb(245, 90, 90)'} : {color: '#000'};
-	const colorTitle = !styleBtn && styleBtn !== null ? {color: 'rgb(245, 90, 90)'} : {color: '#000'};
+	const {sortingItems, setSortBy, sortBy} = useCharMovies();
 
 	return (
 		<div className="headerlist">
 			<div className="headerlist__movies">{found} movies found</div>
 			<div className="headerlist__sort">
                 Sort by
-				<button onClick={sortDate} style={colorDate}>release date</button>
-				<button onClick={sortTitle} style={colorTitle}>movie title</button>
+				{
+					sortingItems.map(item => (
+						<button 
+							key={item.value} 
+							onClick={() => setSortBy(item.value)} 
+							className={`sortBtn ${item.value === sortBy ? 'sortBtnActive' : ''}`}>{item.label}
+						</button>
+					))
+				}
 			</div>
 		</div>
 	)

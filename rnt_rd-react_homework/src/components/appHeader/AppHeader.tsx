@@ -9,7 +9,7 @@ import netflixBg from '../../resources/img/netflix_bg.jpg';
 import './appHeader.scss';
 
 const AppHeader = () => {
-    const {visible, toggle} = useCharMovies();
+    const {card, setInfoCard} = useCharMovies();
 
     return (
         <header className="app__header">
@@ -17,10 +17,10 @@ const AppHeader = () => {
                 <h1 className="app__title">
                     <span>netflixroulette</span>
                 </h1>
-                {!visible && <button className="app__btn app__btn-header" onClick={toggle}>search</button>}
+                {card && <button className="app__btn app__btn-header" onClick={() => setInfoCard(undefined)}>search</button>}
             </div>
-            {!visible && <InfoCard/>}
-            {visible && <SearchForm/>}
+            {card && <InfoCard/>}
+            {!card && <SearchForm/>}
             <div className="app__img">
                 <img src={netflixBg} alt='background'/>
             </div>

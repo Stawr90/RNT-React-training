@@ -12,14 +12,46 @@ type ProviderProps = {
     children: React.ReactNode;
 };
 
+enum SortBy {
+    RELEASE_DATE,
+    MOVIE_TITLE
+}
+
+enum SearchBy {
+    TITLE,
+    GENRE
+}
+
 export const MoviesProvider = ({children}: ProviderProps) => {
-    const [blockHeader, setBlockHeader] = useState(true);
-    const [infoCard, setInfoCard] = useState([]);
-    const [moviesCard, setMoviesCard] = useState(movies);
-    const [colorBtn, setColorBtn] = useState(null);
-    const [searchBy, setSearchBy] = useState(true);
+    const [infoCard, setInfoCard] = useState(undefined);
+    const [moviesCard, setMoviesCard] = useState(movies);    
     const [inputValue, setInputValue] = useState('');
-    const timer = useRef(null);
+    const [sortBy, setSortBy] = useState<SortBy>();
+    const [searchBy, setSearchBy] = useState<SearchBy>(0);
+
+    const sortingItems = [
+        {
+            label: 'release date',
+            value: SortBy.RELEASE_DATE
+        },
+        {
+            label: 'movie title',
+            value: SortBy.MOVIE_TITLE
+        }
+    ]
+
+    const searchingItems = [
+        {
+            label: 'title',
+            value: SearchBy.TITLE,
+            id: 'radio-1'
+        },
+        {
+            label: 'genre',
+            value: SearchBy.GENRE,
+            id: 'radio-2'
+        }
+    ]
 
     useEffect(() => {
         if (inputValue === '') {
@@ -27,44 +59,38 @@ export const MoviesProvider = ({children}: ProviderProps) => {
         }
     }, [inputValue])
 
-    const toggle = () => {
-        setBlockHeader(prev => !prev);
-    }
+    useEffect(() => {
+        if (sortBy === 0) {
+            sortDate();
+        } else if (sortBy === 1) {
+            sortTitle();
+        }
+    }, [sortBy])
+
+    useEffect(() => {
+        toggleFilter();
+    }, [searchBy])
 
     const charInfoCard = (id) => {
-        const charCard = movies.filter(item => {
+        const charCard = movies.find(item => {
             return item.id === id;
         })
-        setInfoCard(() => charCard);
-    }
-
-    const onShowInfoCard = (event, id) => {
-        clearTimeout(timer.current);
-
-        if (event.detail === 1) {
-            timer.current = setTimeout(() => {console.log('Please double click on the card')}, 300);
-        } else if (event.detail === 2) {
-            setBlockHeader(false);
-            charInfoCard(id);
-        }
+        setInfoCard(charCard);
     }
 
     const sortDate = () => {
         const date = [...moviesCard].sort((x1, x2) => x2.date - x1.date);
         setMoviesCard(date);
-        setColorBtn(true);
     }
 
     const sortTitle = () => {
         const title = [...moviesCard].sort((x1, x2) => x1.title.localeCompare(x2.title));
         setMoviesCard(title);
-        setColorBtn(false);
     }
 
     const toggleFilter = () => {
-        setSearchBy(!searchBy);
         setInputValue('');
-        setColorBtn(null);
+        setSortBy(undefined);
         setMoviesCard(movies);
     }
 
@@ -80,7 +106,7 @@ export const MoviesProvider = ({children}: ProviderProps) => {
     }
 
     const filterMovies = () => {
-        if (searchBy) {
+        if (searchBy === 0) {
             const title = movies.filter(item => {
                 const reg = new RegExp(inputValue, 'gi');
                 return reg.test(item.title);
@@ -88,7 +114,7 @@ export const MoviesProvider = ({children}: ProviderProps) => {
             setMoviesCard(title);
         }
 
-        if (!searchBy) {
+        if (searchBy === 1) {
             const genre = movies.filter(item => {
                 const reg = new RegExp(inputValue, 'gi');
                 return reg.test(item.genre);
@@ -99,17 +125,17 @@ export const MoviesProvider = ({children}: ProviderProps) => {
 
     return (
         <MoviesContext.Provider value={{
-            visible: blockHeader,
             card: infoCard,
             movies: moviesCard,
-            styleBtn: colorBtn,
-            search: searchBy,
             value: inputValue,
-            toggle,
-            onShowInfoCard,
-            sortDate,
-            sortTitle,
-            toggleFilter,
+            setInfoCard,
+            sortingItems,
+            sortBy,
+            setSortBy,
+            searchingItems,
+            searchBy,
+            setSearchBy,
+            charInfoCard,
             searchFilter,
             searchBtn
         }}>

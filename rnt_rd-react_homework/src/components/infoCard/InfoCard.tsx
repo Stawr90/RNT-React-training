@@ -5,7 +5,7 @@ import './infoCard.scss';
 
 const InfoCard = () => {
     const {card} = useCharMovies();
-    const {img, title, date, timer, descr} = card[0];
+    const {img, title, date, timer, descr} = card;
 
     return (
         <div className='info'>

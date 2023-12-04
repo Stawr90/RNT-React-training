@@ -4,7 +4,7 @@ import { useCharMovies } from 'context/MoviesContext';
 import './searchForm.scss';
 
 const SearchForm = () => {
-    const {value, searchFilter, toggleFilter, searchBtn} = useCharMovies();
+    const {value, searchFilter, searchBtn, searchingItems, searchBy, setSearchBy} = useCharMovies();
 
     return (
         <>
@@ -22,17 +22,13 @@ const SearchForm = () => {
                 <div className="form__allbtn">
                     <div className="form__radiobtn">
                         <span>search by</span>
-                        <div className="form_radio_btn">
-                            <input id="radio-1" type="radio" name="radio" 
-                            defaultChecked
-                            onChange={toggleFilter}/>
-                            <label htmlFor="radio-1">title</label>
-                        </div>
-                        <div className="form_radio_btn">
-                            <input id="radio-2" type="radio" name="radio"
-                            onChange={toggleFilter}/>
-                            <label htmlFor="radio-2">genre</label>
-                        </div>
+                        {searchingItems.map(item => (
+                            <div key={item.value} className="form_radio_btn">
+                                <input id={item.id} type="radio" name="radio" checked={item.value === searchBy ? true : false} 
+                                onChange={() => setSearchBy(item.value)}/>
+                                <label htmlFor={item.id}>{item.label}</label>
+                            </div>
+                        ))}
                     </div>
                     <button className="app__btn" type="submit">search</button>
                 </div>
