@@ -60,9 +60,9 @@ export const MoviesProvider = ({children}: ProviderProps) => {
     }, [inputValue])
 
     useEffect(() => {
-        if (sortBy === 0) {
+        if (sortBy === SortBy.RELEASE_DATE) {
             sortDate();
-        } else if (sortBy === 1) {
+        } else if (sortBy === SortBy.MOVIE_TITLE) {
             sortTitle();
         }
     }, [sortBy])
@@ -106,7 +106,7 @@ export const MoviesProvider = ({children}: ProviderProps) => {
     }
 
     const filterMovies = () => {
-        if (searchBy === 0) {
+        if (searchBy === SearchBy.TITLE) {
             const title = movies.filter(item => {
                 const reg = new RegExp(inputValue, 'gi');
                 return reg.test(item.title);
@@ -114,7 +114,7 @@ export const MoviesProvider = ({children}: ProviderProps) => {
             setMoviesCard(title);
         }
 
-        if (searchBy === 1) {
+        if (searchBy === SearchBy.GENRE) {
             const genre = movies.filter(item => {
                 const reg = new RegExp(inputValue, 'gi');
                 return reg.test(item.genre);
