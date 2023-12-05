@@ -1,4 +1,5 @@
 import React from 'react';
+import { useCharMovies } from 'context/MoviesContext';
 
 import './movieCard.scss';
 
@@ -10,11 +11,16 @@ interface IFilms {
     date: number | string;
 }
 
-const MovieCard = ({movie}: {movie: IFilms}) => {
+type TMovie = {
+    movie: IFilms;
+}
+
+const MovieCard = ({movie}: TMovie) => {
     const {id, img, title, genre, date} = movie;
+    const {charInfoCard} = useCharMovies();
 
     return (
-        <li key={id} className="card">
+        <li className="card" onClick={() => charInfoCard(id)}>
             <div className="card__img">
                 <img src={img} alt={title} />
             </div>
