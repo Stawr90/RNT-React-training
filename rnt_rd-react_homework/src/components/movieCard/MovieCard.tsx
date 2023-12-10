@@ -1,5 +1,8 @@
 import React from 'react';
-import { useCharMovies } from 'context/MoviesContext';
+
+import { useDispatch } from 'react-redux';
+
+import { movieGetChar } from 'components/moviesList/moviesSlice';
 
 import './movieCard.scss';
 
@@ -17,10 +20,10 @@ type TMovie = {
 
 const MovieCard = ({movie}: TMovie) => {
     const {id, img, title, genre, date} = movie;
-    const {charInfoCard} = useCharMovies();
+    const dispatch = useDispatch();
 
     return (
-        <li className="card" onClick={() => charInfoCard(id)}>
+        <li className="card" onClick={() => dispatch(movieGetChar(id))}>
             <div className="card__img">
                 <img src={img} alt={title} />
             </div>

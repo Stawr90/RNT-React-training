@@ -1,14 +1,25 @@
 import React from 'react';
-import { useCharMovies } from 'context/MoviesContext';
+
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {sortingBtn, sortBtn, moviesSorted, fetchSortMovies} from '../moviesList/moviesSlice';
 
 import './headerList.scss';
 
 interface ICounter {
-    found: number;
+    found: number | string;
 }
 
 const HeaderList = ({found}: ICounter) => {
-	const {sortingItems, setSortBy, sortBy} = useCharMovies();
+	const sortingItemsBtn = useSelector(sortingBtn);
+	const styleBtn = useSelector(sortBtn);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (styleBtn !== null) {
+			dispatch(fetchSortMovies() as any)
+		}
+	}, [styleBtn]);
 
 	return (
 		<div className="headerlist">
@@ -16,11 +27,11 @@ const HeaderList = ({found}: ICounter) => {
 			<div className="headerlist__sort">
                 Sort by
 				{
-					sortingItems.map(item => (
+					sortingItemsBtn.map(item => (
 						<button 
 							key={item.value} 
-							onClick={() => setSortBy(item.value)} 
-							className={`sortBtn ${item.value === sortBy ? 'sortBtnActive' : ''}`}>{item.label}
+							onClick={() => dispatch(moviesSorted(item.value))} 
+							className={`sortBtn ${item.value === styleBtn ? 'sortBtnActive' : ''}`}>{item.label}
 						</button>
 					))
 				}

@@ -1,14 +1,27 @@
 import React from 'react';
-import { useCharMovies } from 'context/MoviesContext';
+
+import { useSelector, useDispatch } from 'react-redux';
+
+import { searchingBtn, searchBtn, searchTitleOrGenre, valueSearch, searchChange, fetchSearchMovies} from './searchSlice';
 
 import './searchForm.scss';
 
 const SearchForm = () => {
-    const {value, searchFilter, searchBtn, searchingItems, searchBy, setSearchBy} = useCharMovies();
+    const serchingItemsBtn = useSelector(searchingBtn);
+    const checkedBtn = useSelector(searchBtn);
+    const value = useSelector(valueSearch);
+    const dispatch = useDispatch();
+
+    const searchBtnForm = (event) => {
+        event.preventDefault();
+        if (value !== '') {
+            dispatch(fetchSearchMovies() as any);
+        }
+    }
 
     return (
         <>
-            <form className="form" onSubmit={searchBtn}>
+            <form className="form" onSubmit={(e) => searchBtnForm(e)}>
                 <div className="form__subtitle">
                     <span>find your movie</span>
                 </div>
@@ -17,15 +30,15 @@ const SearchForm = () => {
                     placeholder="Please enter a movie" 
                     className="form__input" 
                     value={value} 
-                    onChange={e => searchFilter(e)}/>
+                    onChange={e => dispatch(searchChange((e.target.value).trim()))}/>
                 
                 <div className="form__allbtn">
                     <div className="form__radiobtn">
                         <span>search by</span>
-                        {searchingItems.map(item => (
+                        {serchingItemsBtn.map(item => (
                             <div key={item.value} className="form_radio_btn">
-                                <input id={item.id} type="radio" name="radio" checked={item.value === searchBy ? true : false} 
-                                onChange={() => setSearchBy(item.value)}/>
+                                <input id={item.id} type="radio" name="radio" checked={item.value === checkedBtn ? true : false} 
+                                onChange={() => dispatch(searchTitleOrGenre(item.value))}/>
                                 <label htmlFor={item.id}>{item.label}</label>
                             </div>
                         ))}

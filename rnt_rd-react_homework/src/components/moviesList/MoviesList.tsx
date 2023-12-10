@@ -1,5 +1,9 @@
 import React from 'react';
-import { useCharMovies } from 'context/MoviesContext';
+
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchMovies, moviesList } from './moviesSlice';
 
 import HeaderList from '../headerList/HeaderList';
 import MovieCard from '../movieCard/MovieCard';
@@ -7,8 +11,13 @@ import MovieCard from '../movieCard/MovieCard';
 import './moviesList.scss';
 
 const MoviesList = () => {
-    const {movies} = useCharMovies();
+    const movies = useSelector(moviesList);
+    const dispatch = useDispatch();
     const numMovies = movies.length;
+
+    useEffect(() => {
+        dispatch(fetchMovies() as any);
+    }, []);
 
     return (
         <div>
