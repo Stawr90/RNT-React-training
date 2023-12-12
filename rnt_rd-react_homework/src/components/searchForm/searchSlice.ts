@@ -7,15 +7,18 @@ enum SearchBy {
 }
 
 interface IStateSearch {
-    foundMovies: any[];
     search: string;
     searchLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error';
     searchBtn: number;
-    searchingItems: { label: string; value: string | number; id: string }[];
-  }
+    searchingItems: { label: string; value: SearchBy; id: string }[];
+}
+
+interface IRootState {
+    movies: {};
+    search: IStateSearch;
+}
 
 const initialState: IStateSearch = {
-    foundMovies: [],
     search: '',
     searchLoadingStatus: 'idle',
     searchBtn: 0,
@@ -35,11 +38,15 @@ const initialState: IStateSearch = {
 
 export const fetchSearchMovies = createAsyncThunk(
     'search/fetchSearchMovies',
-    async () => {
+    async (_, {getState}) => {
         const {request} = useHttp();
-        return await request("http://localhost:3000/posts?title_like=P")
-        // title - http://localhost:3000/posts?title_like=Mar
-        // genre - http://localhost:3000/posts?genre_like=Doc
+        const state: IRootState = getState() as IRootState;
+        
+        const searchBtn = state.search.searchBtn;
+        const typeSearchBtn = searchBtn ? 'genre' : 'title';
+        const valueSearch = state.search.search;
+
+        return await request(`http://localhost:3000/posts?${typeSearchBtn}_like=${valueSearch}`)
     }
 )
 
@@ -60,7 +67,6 @@ const searchSlice = createSlice({
 export const searchingBtn = (state) => state.search.searchingItems;
 export const searchBtn = (state) => state.search.searchBtn;
 export const valueSearch = (state) => state.search.search;
-export const foundMovies = (state) => state.search.foundMovies;
 
 const {actions, reducer} = searchSlice;
 

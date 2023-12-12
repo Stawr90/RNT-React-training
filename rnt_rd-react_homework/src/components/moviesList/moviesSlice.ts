@@ -13,7 +13,12 @@ interface IStateMovies {
     moviesLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error';
     movieCard: {img: string; title: string; date: string | number; timer: number; descr: string} | undefined;
     sortBtn: number | null;
-    sortingItems: { label: string; value: string | number }[];
+    sortingItems: { label: string; value: SortBy }[];
+}
+
+interface IRootState {
+    movies: IStateMovies;
+    search: {};
 }
 
 const initialState: IStateMovies = {
@@ -45,17 +50,17 @@ export const fetchSortMovies = createAsyncThunk(
     'movies/fetchSortMovies',
     async (_, {getState}) => {
         const {request} = useHttp();
-        // const state = getState();
-        // const btn = state.sortBtn;
+        const state: IRootState = getState() as IRootState;
+        const sortBtn = state.movies.sortBtn;
 
-        // switch (state.sortBtn) {
-        //     case SortBy.RELEASE_DATE:
+        switch (sortBtn) {
+            case SortBy.RELEASE_DATE:
                 return await request("http://localhost:3000/posts?_sort=date&_order=desc");
-        //     case SortBy.MOVIE_TITLE:
-        //         return await request("http://localhost:3000/posts?_sort=title&_order=asc");
-        //     default:
-        //         console.log('unsorted')
-        // }
+            case SortBy.MOVIE_TITLE:
+                return await request("http://localhost:3000/posts?_sort=title&_order=asc");
+            default:
+                console.log('unsorted')
+        }
     }
 );
 
