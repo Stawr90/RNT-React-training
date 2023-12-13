@@ -1,10 +1,12 @@
 import React from 'react';
-import { useCharMovies } from 'context/MoviesContext';
+
+import { useSelector } from 'react-redux';
+import { movieCard } from 'components/moviesList/moviesSlice';
 
 import './infoCard.scss';
 
 const InfoCard = () => {
-    const {card} = useCharMovies();
+    const card = useSelector(movieCard);
     const {img, title, date, timer, descr} = card;
 
     return (
