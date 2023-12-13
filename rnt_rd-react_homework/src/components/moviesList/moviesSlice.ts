@@ -2,24 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { useHttp } from "hooks/http.hook";
 import { fetchSearchMovies } from "components/searchForm/searchSlice";
-
-enum SortBy {
-    RELEASE_DATE,
-    MOVIE_TITLE
-}
-
-interface IStateMovies {
-    movies: any[];
-    moviesLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error';
-    movieCard: {img: string; title: string; date: string | number; timer: number; descr: string} | undefined;
-    sortBtn: number | null;
-    sortingItems: { label: string; value: SortBy }[];
-}
-
-interface IRootState {
-    movies: IStateMovies;
-    search: {};
-}
+import { SortBy, IStateMovies, IRootState } from "types/TypesBase";
 
 const initialState: IStateMovies = {
     movies: [],
@@ -46,21 +29,16 @@ export const fetchMovies = createAsyncThunk(
     } 
 );
 
-export const fetchSortMovies = createAsyncThunk(
+export const fetchSortMovies = createAsyncThunk<any, void, {state: IRootState}>(
     'movies/fetchSortMovies',
     async (_, {getState}) => {
         const {request} = useHttp();
-        const state: IRootState = getState() as IRootState;
+        const state = getState();
+        
         const sortBtn = state.movies.sortBtn;
-
-        switch (sortBtn) {
-            case SortBy.RELEASE_DATE:
-                return await request("http://localhost:3000/posts?_sort=date&_order=desc");
-            case SortBy.MOVIE_TITLE:
-                return await request("http://localhost:3000/posts?_sort=title&_order=asc");
-            default:
-                console.log('unsorted')
-        }
+        const sortOrder = sortBtn === SortBy.RELEASE_DATE ? 'desc' : 'asc';
+        
+        return await request(`http://localhost:3000/posts?_sort=${sortBtn}&_order=${sortOrder}`);
     }
 );
 
@@ -102,7 +80,6 @@ export const moviesSlice = createSlice({
                 state.moviesLoadingStatus = 'succeeded';
                 state.movies = action.payload;
                 state.sortBtn = null;
-                console.log(action.payload);
             }) 
             .addCase(fetchSearchMovies.rejected, state => {state.moviesLoadingStatus = 'error'})
 

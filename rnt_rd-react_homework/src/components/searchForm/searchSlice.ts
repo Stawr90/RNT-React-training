@@ -1,27 +1,11 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useHttp } from "hooks/http.hook";
-
-enum SearchBy {
-    TITLE,
-    GENRE
-}
-
-interface IStateSearch {
-    search: string;
-    searchLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error';
-    searchBtn: number;
-    searchingItems: { label: string; value: SearchBy; id: string }[];
-}
-
-interface IRootState {
-    movies: {};
-    search: IStateSearch;
-}
+import { SearchBy, IStateSearch, IRootState } from "types/TypesBase";
 
 const initialState: IStateSearch = {
     search: '',
     searchLoadingStatus: 'idle',
-    searchBtn: 0,
+    searchBtn: SearchBy.TITLE,
     searchingItems: [
         {
             label: 'title',
@@ -36,17 +20,16 @@ const initialState: IStateSearch = {
     ]
 }
 
-export const fetchSearchMovies = createAsyncThunk(
+export const fetchSearchMovies = createAsyncThunk<any, void, {state: IRootState}>(
     'search/fetchSearchMovies',
     async (_, {getState}) => {
         const {request} = useHttp();
-        const state: IRootState = getState() as IRootState;
+        const state = getState();
         
         const searchBtn = state.search.searchBtn;
-        const typeSearchBtn = searchBtn ? 'genre' : 'title';
         const valueSearch = state.search.search;
 
-        return await request(`http://localhost:3000/posts?${typeSearchBtn}_like=${valueSearch}`)
+        return await request(`http://localhost:3000/posts?${searchBtn}_like=${valueSearch}`)
     }
 )
 
