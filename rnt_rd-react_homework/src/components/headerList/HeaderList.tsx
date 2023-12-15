@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Form, Field } from 'react-final-form';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {sortingBtn, sortBtn, moviesSorted, fetchSortMovies} from '../moviesList/moviesSlice';
@@ -21,22 +21,28 @@ const HeaderList = ({found}: ICounter) => {
 		}
 	}, [styleBtn]);
 
+	const submitSort = (values) => {
+		dispatch(moviesSorted(values.sortType));
+	};
+
 	return (
-		<div className="headerlist">
-			<div className="headerlist__movies">{found} movies found</div>
-			<div className="headerlist__sort">
-                Sort by
-				{
-					sortingItemsBtn.map(item => (
-						<button 
-							key={item.value} 
-							onClick={() => dispatch(moviesSorted(item.value))} 
-							className={`sortBtn ${item.value === styleBtn ? 'sortBtnActive' : ''}`}>{item.label}
-						</button>
-					))
-				}
-			</div>
-		</div>
+		<Form
+			onSubmit={submitSort}
+			render={({ handleSubmit }) => (
+				<div className="headerlist">
+					<div className="headerlist__movies">{found} movies found</div>
+					<div className="headerlist__sort">
+						Sort by
+						{sortingItemsBtn.map(item => (
+							<button key={item.value} onClick={handleSubmit} value={item.value}
+								className={`sortBtn ${item.value === styleBtn ? 'sortBtnActive' : ''}`}>{item.label}
+							</button>
+						))}
+						<Field name="sortType" component="input" type="hidden" />
+					</div>
+				</div>
+			)}
+		/>
 	)
 }
 

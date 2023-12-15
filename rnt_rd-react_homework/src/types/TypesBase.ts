@@ -27,3 +27,10 @@ export interface IStateSearch {
     searchBtn: SearchBy;
     searchingItems: { label: string; value: SearchBy; id: string }[];
 }
+
+export interface IFormData {
+    username: string;
+    password: string;
+    email: string;
+    confirmPass: string;
+}
