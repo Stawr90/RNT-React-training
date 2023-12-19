@@ -43,8 +43,7 @@ export interface IFormData {
 }
 
 export interface IFormHeader {
-    date: string;
-    title: string;
+    sortType: string;
 }
 
 export interface ICounter {

@@ -20,8 +20,7 @@ const HeaderList = ({found}: ICounter) => {
 	}, [styleBtn]);
 
 	const submitSort = (values: IFormHeader) => {
-		console.log(values);
-		// dispatch(moviesSorted(values.sortType));
+		dispatch(moviesSorted(values.sortType));
 	};
 
 	return (
@@ -33,11 +32,21 @@ const HeaderList = ({found}: ICounter) => {
 					<div className="headerlist__sort">
 						Sort by
 						{sortingItemsBtn.map(item => (
-							<button key={item.value} onClick={handleSubmit} value={item.value}
-								className={`sortBtn ${item.value === styleBtn ? 'sortBtnActive' : ''}`}>{item.label}
-							</button>
+							<Field name="sortType" key={item.value}>
+								{({input}) => (
+									<>
+										<input id={item.value} type="radio" name="radio"
+										checked={item.value === styleBtn ? true : false}
+										onChange={() => {
+											input.onChange(item.value);
+											handleSubmit();
+										}}
+										/>
+										<label htmlFor={item.value}>{item.label}</label>
+									</>
+								)}
+							</Field>
 						))}
-						<Field name="sortType" component="input" type="hidden" />
 					</div>
 				</div>
 			)}
