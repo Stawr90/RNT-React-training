@@ -1,16 +1,35 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { useHttp } from "hooks/http.hook";
-import { IFormData } from 'types/TypesBase';
+import { IFormData, InputItems } from 'types/TypesBase';
 
 interface IStateReg {
     user: {},
-    regLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error';
+    regLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error',
+    inputItems: { name: InputItems, placeholder: string}[]
 }
 
 const initialState: IStateReg = {
     user: {},
-    regLoadingStatus: 'idle'
+    regLoadingStatus: 'idle',
+    inputItems: [
+        {
+            name: InputItems.USER_NAME,
+            placeholder: 'Username'
+        },
+        {
+            name: InputItems.EMAIL,
+            placeholder: 'Email'
+        },
+        {
+            name: InputItems.PASSWORD,
+            placeholder: 'Password'
+        },
+        {
+            name: InputItems.CONFIRM_PASS,
+            placeholder: 'Confirm Password'
+        }
+    ]
 }
 
 export const fetchRegUser = createAsyncThunk(
@@ -38,6 +57,8 @@ export const regSlice = createSlice({
             .addDefaultCase(() => {})
     }
 })
+
+export const inpItems = (state) => state.reg.inputItems;
 
 const {reducer} = regSlice;
 

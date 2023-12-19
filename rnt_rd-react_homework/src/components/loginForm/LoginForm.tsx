@@ -3,19 +3,24 @@ import { Form, Field } from 'react-final-form';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { loginOrReg, loginGetChar, profile, fetchLoginUser } from './loginSlice';
+import { loginOrReg, loginGetChar, profile, fetchLoginUser, inpItems } from './loginSlice';
+import { IFormData } from 'types/TypesBase';
 
 import netflixBg from '../../resources/img/netflix_bg.jpg';
 import './loginForm.scss';
 
-interface IFormData {
-    username: string;
-    password: string;
-}
-
 const LoginForm = () => {
     const userChar = useSelector(profile);
+    const inputItems = useSelector(inpItems);
     const dispatch = useDispatch();
+
+    const validateUsername = (username: string | undefined) => {
+        const usernameRegExp = /^[A-Z0-9]+$/;
+        return username && !usernameRegExp.test(username) ? 'Big letters and numbers' : undefined;
+    };
+    const validatePassword = (password: string | undefined) => {
+        return password && (password.length < 8 || new Set(password).size !== password.length) ? 'Unique symbols / more than 8' : undefined;
+    }
 
     useEffect(() => {
         if (Object.keys(userChar).length !== 0) {
@@ -31,14 +36,8 @@ const LoginForm = () => {
     const validateLogin = (values: IFormData) => {
         const errors: Partial<IFormData> = {};
         
-        if (values.username && !/^[A-Z0-9]+$/.test(values.username)) {
-            errors.username = 'Big letters and numbers';
-        }
-        if (values.password && values.password.length < 8) {
-            errors.password = 'Unique symbols / more than 8';
-        } else if (values.password && new Set(values.password).size !== values.password.length) {
-            errors.password = 'Unique symbols / more than 8';
-        }
+        errors.username = validateUsername(values.username);
+        errors.password = validatePassword(values.password);
 
         return errors;
     }
@@ -51,22 +50,16 @@ const LoginForm = () => {
                 <form onSubmit={handleSubmit} className="login">
                     <h1 className="login__title">Netflix Roulette</h1>
                     <h2 className="login__subtitle">Sign In</h2>
-                    <Field name="username">
-                        {({ input, meta }) => (
-                            <div>
-                                {meta.error && meta.touched && <span>{meta.error}</span>}
-                                <input type="text" {...input} placeholder="Username" style={meta.error ? {border: "2px solid red"}: null}/>
-                            </div>
-                        )}
-                    </Field>
-                    <Field name="password">
-                        {({ input, meta }) => (
-                            <div>
-                                {meta.error && meta.touched && <span>{meta.error}</span>}
-                                <input type="text" {...input} placeholder="Password" style={meta.error ? {border: "2px solid red"}: null}/>
-                            </div>
-                        )}
-                    </Field>
+                    {inputItems.map(item => (
+                        <Field name={item.name} key={item.name}>
+                            {({ input, meta }) => (
+                                <div>
+                                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                                    <input type="text" {...input} placeholder={item.placeholder} className={meta.error ? "input_error" : null}/>
+                                </div>
+                            )}
+                        </Field>
+                    ))}
                     
                     <button type="submit" className="login__btn">Sign In</button>
                     <p>Don't have an account? <span onClick={() => dispatch(loginOrReg())}>Sign up</span></p>

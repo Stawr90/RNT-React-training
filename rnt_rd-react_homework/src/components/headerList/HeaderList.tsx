@@ -2,13 +2,11 @@ import React from 'react';
 import { Form, Field } from 'react-final-form';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import {sortingBtn, sortBtn, moviesSorted, fetchSortMovies} from '../moviesList/moviesSlice';
+import { ICounter, IFormHeader } from 'types/TypesBase';
 
 import './headerList.scss';
-
-interface ICounter {
-    found: number | string;
-}
 
 const HeaderList = ({found}: ICounter) => {
 	const sortingItemsBtn = useSelector(sortingBtn);
@@ -21,8 +19,9 @@ const HeaderList = ({found}: ICounter) => {
 		}
 	}, [styleBtn]);
 
-	const submitSort = (values) => {
-		dispatch(moviesSorted(values.sortType));
+	const submitSort = (values: IFormHeader) => {
+		console.log(values);
+		// dispatch(moviesSorted(values.sortType));
 	};
 
 	return (

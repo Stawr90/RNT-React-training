@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+import { InputItems } from "types/TypesBase";
 import { useHttp } from "hooks/http.hook";
 
 interface IFetchLogin {
@@ -11,14 +12,25 @@ interface IStateLogin {
     profile: IFetchLogin,
     reg: boolean,
     login: boolean,
-    loginLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error';
+    loginLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error',
+    inputItems: { name: InputItems, placeholder: string}[]
 }
 
 const initialState: IStateLogin = {
     profile: {},
     reg: false,
     login: false,
-    loginLoadingStatus: 'idle'
+    loginLoadingStatus: 'idle',
+    inputItems: [
+        {
+            name: InputItems.USER_NAME,
+            placeholder: 'Username'
+        },
+        {
+            name: InputItems.PASSWORD,
+            placeholder: 'Password'
+        }
+    ]
 }
 
 export const fetchLoginUser = createAsyncThunk(
@@ -63,6 +75,7 @@ export const loginSlice = createSlice({
 export const useReg = (state) => state.login.reg;
 export const useLog = (state) => state.login.login;
 export const profile = (state) => state.login.profile;
+export const inpItems = (state) => state.login.inputItems;
 
 const {actions, reducer} = loginSlice;
 

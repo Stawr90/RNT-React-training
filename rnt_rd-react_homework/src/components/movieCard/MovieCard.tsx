@@ -1,22 +1,10 @@
 import React from 'react';
-
 import { useDispatch } from 'react-redux';
 
 import { movieGetChar } from 'components/moviesList/moviesSlice';
+import { TMovie } from 'types/TypesBase';
 
 import './movieCard.scss';
-
-interface IFilms {
-    id: number;
-    img: string;
-    title: string;
-    genre: string;
-    date: number | string;
-}
-
-type TMovie = {
-    movie: IFilms;
-}
 
 const MovieCard = ({movie}: TMovie) => {
     const {id, img, title, genre, date} = movie;
