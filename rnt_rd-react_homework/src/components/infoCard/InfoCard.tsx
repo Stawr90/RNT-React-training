@@ -1,6 +1,7 @@
 import React from 'react';
-
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import { movieCard } from 'components/moviesList/moviesSlice';
 
 import './infoCard.scss';
@@ -21,6 +22,7 @@ const InfoCard = () => {
                     <span className='info__char-time'>{timer} min</span>
                 </div>
                 <div className="info__descr">{descr}</div>
+                <Link to='/'><button className="info__btn">Films</button></Link>
             </div>
         </div>
     )

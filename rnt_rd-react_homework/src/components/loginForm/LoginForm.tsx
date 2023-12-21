@@ -2,8 +2,9 @@ import React from 'react';
 import { Form, Field } from 'react-final-form';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { loginOrReg, loginGetChar, profile, fetchLoginUser, inpItems } from './loginSlice';
+import { loginGetChar, profile, fetchLoginUser, inpItems, useLog } from './loginSlice';
 import { IFormData } from 'types/TypesBase';
 
 import netflixBg from '../../resources/img/netflix_bg.jpg';
@@ -11,8 +12,22 @@ import './loginForm.scss';
 
 const LoginForm = () => {
     const userChar = useSelector(profile);
+    const signIn = useSelector(useLog);
     const inputItems = useSelector(inpItems);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (Object.keys(userChar).length !== 0) {
+            dispatch(fetchLoginUser() as any);
+        }
+    }, [userChar])
+
+    useEffect(() => {
+        if (signIn !== false) {
+            navigate('/');
+        }
+    }, [signIn]);
 
     const validateUsername = (username: string | undefined) => {
         const usernameRegExp = /^[A-Z0-9]+$/;
@@ -21,12 +36,6 @@ const LoginForm = () => {
     const validatePassword = (password: string | undefined) => {
         return password && (password.length < 8 || new Set(password).size !== password.length) ? 'Unique symbols / more than 8' : undefined;
     }
-
-    useEffect(() => {
-        if (Object.keys(userChar).length !== 0) {
-            dispatch(fetchLoginUser() as any);
-        }
-    }, [userChar])
 
     const submitLogin = (values: IFormData, form) => {
         dispatch(loginGetChar(values));
@@ -60,9 +69,8 @@ const LoginForm = () => {
                             )}
                         </Field>
                     ))}
-                    
                     <button type="submit" className="login__btn">Sign In</button>
-                    <p>Don't have an account? <span onClick={() => dispatch(loginOrReg())}>Sign up</span></p>
+                    <p>Don't have an account? <Link to='/registration'><span>Sign up</span></Link></p>
 
                     <div className="login__img">
                         <img src={netflixBg} alt='background'/>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { movieGetChar } from 'components/moviesList/moviesSlice';
 import { TMovie } from 'types/TypesBase';
@@ -12,16 +13,18 @@ const MovieCard = ({movie}: TMovie) => {
 
     return (
         <li className="card" onClick={() => dispatch(movieGetChar(id))}>
-            <div className="card__img">
-                <img src={img} alt={title} />
-            </div>
-            <div className="card__desc">
-                <div className="card__item">
-                    <div className="card__item-title">{title}</div>
-                    <div className="card__item-date">{date}</div>
+            <Link to={`/posts/${id}`}>
+                <div className="card__img">
+                    <img src={img} alt={title} />
                 </div>
-                <span>{genre}</span>
-            </div>
+                <div className="card__desc">
+                    <div className="card__item">
+                        <div className="card__item-title">{title}</div>
+                        <div className="card__item-date">{date}</div>
+                    </div>
+                    <span>{genre}</span>
+                </div>
+            </Link>
         </li>
     )
 }
