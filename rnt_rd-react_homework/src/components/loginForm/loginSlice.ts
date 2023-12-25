@@ -10,7 +10,6 @@ interface IFetchLogin {
 
 interface IStateLogin {
     profile: IFetchLogin,
-    reg: boolean,
     login: boolean,
     loginLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error',
     inputItems: { name: InputItems, placeholder: string}[]
@@ -18,7 +17,6 @@ interface IStateLogin {
 
 const initialState: IStateLogin = {
     profile: {},
-    reg: false,
     login: false,
     loginLoadingStatus: 'idle',
     inputItems: [
@@ -45,9 +43,6 @@ export const loginSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
-        loginOrReg: (state) => {
-            state.reg = !state.reg;
-        },
         loginGetChar: (state, action) => {
             state.profile = action.payload;
         }
@@ -58,6 +53,7 @@ export const loginSlice = createSlice({
             .addCase(fetchLoginUser.fulfilled, (state: IStateLogin, action: PayloadAction<any>) => {
                 state.loginLoadingStatus = 'succeeded';
                 if (state.profile.username === action.payload.username && state.profile.password === action.payload.password) {
+                    state.profile = {};
                     state.login = true;
 
                     localStorage.setItem('isAuthenticated', 'true');
@@ -72,7 +68,6 @@ export const loginSlice = createSlice({
     
 })
 
-export const useReg = (state) => state.login.reg;
 export const useLog = (state) => state.login.login;
 export const profile = (state) => state.login.profile;
 export const inpItems = (state) => state.login.inputItems;
@@ -81,4 +76,4 @@ const {actions, reducer} = loginSlice;
 
 export default reducer;
 
-export const {loginOrReg, loginGetChar} = actions;
+export const {loginGetChar} = actions;

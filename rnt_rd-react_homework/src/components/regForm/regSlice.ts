@@ -5,12 +5,14 @@ import { IFormData, InputItems } from 'types/TypesBase';
 
 interface IStateReg {
     user: {},
+    reg: boolean,
     regLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error',
     inputItems: { name: InputItems, placeholder: string}[]
 }
 
 const initialState: IStateReg = {
     user: {},
+    reg: false,
     regLoadingStatus: 'idle',
     inputItems: [
         {
@@ -43,7 +45,11 @@ export const fetchRegUser = createAsyncThunk(
 export const regSlice = createSlice({
     name: 'reg',
     initialState,
-    reducers: {},
+    reducers: {
+        regCreateAccount: (state) => {
+            state.reg = !state.reg;
+        },
+    },
     extraReducers: (builder) => {
         builder
             // Profile registration
@@ -59,7 +65,10 @@ export const regSlice = createSlice({
 })
 
 export const inpItems = (state) => state.reg.inputItems;
+export const useReg = (state) => state.reg.reg;
 
-const {reducer} = regSlice;
+const {reducer, actions} = regSlice;
 
 export default reducer;
+
+export const {regCreateAccount} = actions;

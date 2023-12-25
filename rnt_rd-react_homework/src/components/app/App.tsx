@@ -1,27 +1,32 @@
 import React from 'react';
 
-import { useSelector } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
 
 import AppHeader from '../appHeader/AppHeader';
 import AppFooter from '../appFooter/AppFooter';
 import MoviesList from '../moviesList/MoviesList';
 import LoginForm from 'components/loginForm/LoginForm';
 import RegForm from 'components/regForm/RegForm';
+import InfoCard from 'components/infoCard/InfoCard';
+import Page404 from 'components/pages/404';
 
-import { useReg, useLog } from 'components/loginForm/loginSlice';
+import PrivateRoute from 'utils/router/privateRoute';
 
 import './app.scss';
 
+
 function App() {
-  const registration = useSelector(useReg);
-  const signin = useSelector(useLog);
 
   const AppContent: React.FC = () => {
     return (
       <>
         <AppHeader/>
         <main>
-          <MoviesList/>
+          <Routes>
+            <Route path='/' element={<MoviesList/>}/>
+            <Route path='/posts/:id' element={<InfoCard/>}/>
+            <Route path='*' element={<Page404/>}/>
+          </Routes>
         </main>
         <AppFooter/>
       </>
@@ -29,13 +34,16 @@ function App() {
   }
 
   return (
-    
-    <div className="App">
-      {!registration && !signin && <LoginForm/>}
-      {registration && !signin && <RegForm/>}
+      <div className="App">
+        <Routes>
+          <Route element={<PrivateRoute/>}>
+            <Route path='*' element={<AppContent/>}/>
+          </Route>
 
-      {signin && <AppContent/>}
-    </div>
+          <Route path='/login' element={<LoginForm/>}/>
+          <Route path='/registration' element={<RegForm/>}/>
+        </Routes>
+      </div>
   );
 }
 
