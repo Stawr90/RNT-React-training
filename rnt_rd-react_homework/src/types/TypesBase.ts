@@ -8,6 +8,13 @@ export enum SearchBy {
     GENRE = 'genre'
 }
 
+export enum InputItems {
+    USER_NAME = 'username',
+    EMAIL = 'email',
+    PASSWORD = 'password',
+    CONFIRM_PASS = 'confirmPass'
+}
+
 export interface IRootState {
     movies: IStateMovies;
     search: IStateSearch;
@@ -26,4 +33,31 @@ export interface IStateSearch {
     searchLoadingStatus: 'idle' | 'loading' | 'succeeded' | 'error';
     searchBtn: SearchBy;
     searchingItems: { label: string; value: SearchBy; id: string }[];
+}
+
+export interface IFormData {
+    username: string;
+    password: string;
+    email?: string;
+    confirmPass?: string;
+}
+
+export interface IFormHeader {
+    sortType: string;
+}
+
+export interface ICounter {
+    found: number | string;
+}
+
+export interface IFilms {
+    id: number;
+    img: string;
+    title: string;
+    genre: string;
+    date: number | string;
+}
+
+export type TMovie = {
+    movie: IFilms;
 }

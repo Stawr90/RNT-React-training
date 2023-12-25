@@ -7,24 +7,23 @@
     font-size: 21px;
     font-weight: 700;
     padding: 0px 120px 0px 170px;
-    button {
-        margin: 0px 20px;
-        height: 30px;
-        font-size: 21px;
-        border: none;
-        outline: none;
-        background-color: transparent;
-        cursor: pointer;
-        &:hover {
-            color: rgb(245, 90, 90);
-        }
-    }
 
-    .sortBtn {
-        color: #000;
-    }   
-
-    .sortBtnActive {
-        color: rgb(245, 90, 90);
-    }
+/* Radio button */
+    input[type=radio] {
+		display: none;
+	}
+    label {
+		display: inline-block;
+		cursor: pointer;
+		padding: 0px 20px;
+        font-weight: 500;
+	}
+    /* Checked */
+	input[type=radio]:checked + label {
+		color: rgb(231, 57, 57);
+	}
+	/* Hover */
+	label:hover {
+		color: rgb(245, 90, 90);
+	}
 }
