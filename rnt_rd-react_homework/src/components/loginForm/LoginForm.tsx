@@ -6,11 +6,13 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { loginGetChar, profile, fetchLoginUser, inpItems, useLog } from './loginSlice';
 import { IFormData } from 'types/TypesBase';
+import ValidateForm from 'utils/validate/validateForm';
 
 import netflixBg from '../../resources/img/netflix_bg.jpg';
 import './loginForm.scss';
 
 const LoginForm = () => {
+    const {validateUsername, validatePassword} = ValidateForm();
     const userChar = useSelector(profile);
     const signIn = useSelector(useLog);
     const inputItems = useSelector(inpItems);
@@ -28,14 +30,6 @@ const LoginForm = () => {
             navigate('/');
         }
     }, [signIn]);
-
-    const validateUsername = (username: string | undefined) => {
-        const usernameRegExp = /^[A-Z0-9]+$/;
-        return username && !usernameRegExp.test(username) ? 'Big letters and numbers' : undefined;
-    };
-    const validatePassword = (password: string | undefined) => {
-        return password && (password.length < 8 || new Set(password).size !== password.length) ? 'Unique symbols / more than 8' : undefined;
-    }
 
     const submitLogin = (values: IFormData, form) => {
         dispatch(loginGetChar(values));
