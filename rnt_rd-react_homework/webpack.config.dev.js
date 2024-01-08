@@ -39,7 +39,7 @@ module.exports = {
             ]
         },
         {
-            test: /\.(woff2?|eot|ttf|otf)$/i,
+            test: /\.(woff2?|eot|ttf|otf|gif|svg)$/i,
             type: 'asset/resource',
         },
         {
@@ -69,7 +69,11 @@ module.exports = {
         ],
     },
     resolve: {
-        modules: [path.resolve(__dirname, './src'), 'node_modules'],
+        alias: {
+          config$: './configs/app-config.js',
+          react: './vendor/react-master',
+        },
+        modules: [path.resolve(__dirname, './src'), 'node_modules', 'bower_components', 'shared', '/shared/vendor/modules'],
         extensions: [".*", ".js", ".jsx", ".ts", ".tsx", ".scss"],
     },
     plugins: [
