@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
+    "@testing-library/user-event": "^12.6.2",
     "final-form": "^4.20.10",
     "identity-obj-proxy": "^3.0.0",
     "module-name": "^0.0.1-security",

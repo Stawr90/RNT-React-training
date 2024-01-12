@@ -20,7 +20,7 @@ const MoviesList = () => {
     }, []);
 
     return (
-        <div>
+        <div data-testid="main-page">
             <HeaderList found={numMovies}/>
             <div className="list">
                 <ul className="list__movies">
