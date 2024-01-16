@@ -1,9 +1,8 @@
 {
     "compilerOptions": {
-        "jsx": "react-jsx", 
+        "jsx": "react", 
         "target": "es2016",
         "module": "commonjs",
-        "lib": ["dom", "dom.iterable", "esnext"],
         "baseUrl": "src/", 
         "noEmitOnError": true, 
         "esModuleInterop": true,

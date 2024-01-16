@@ -5,13 +5,15 @@ import AppHeader from '../AppHeader';
 import { Provider } from 'react-redux';
 import store from '../../../store';
 
-test('header element display', () => {
-    render(
-        <Provider store={store}>
-            <AppHeader/>
-        </Provider>);
+describe('AppHeader Component', () => {
+    test('header element display', () => {
+        render(
+            <Provider store={store}>
+                <AppHeader/>
+            </Provider>);
 
-    expect(screen.getByText(/netflixroulette/i)).toBeInTheDocument();
-    expect(screen.getByRole('img')).toBeInTheDocument();
-    expect(screen.getByAltText(/background/i)).toBeInTheDocument();
+        expect(screen.getByText(/netflixroulette/i)).toBeInTheDocument();
+        expect(screen.getByRole('img')).toBeInTheDocument();
+        expect(screen.getByAltText(/background/i)).toBeInTheDocument();
+    });    
 });

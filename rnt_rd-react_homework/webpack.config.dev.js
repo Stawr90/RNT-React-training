@@ -39,11 +39,11 @@ module.exports = {
             ]
         },
         {
-            test: /\.(woff2?|eot|ttf|otf|gif|svg)$/i,
+            test: /\.(woff2?|eot|ttf|otf)$/i,
             type: 'asset/resource',
         },
         {
-          test: /\.(png|jpe?g|gif)$/i,
+          test: /\.(png|jpe?g|gif|svg)$/i,
           use: [
             {
               loader: 'file-loader',
@@ -69,12 +69,8 @@ module.exports = {
         ],
     },
     resolve: {
-        alias: {
-          config$: './configs/app-config.js',
-          react: './vendor/react-master',
-        },
-        modules: [path.resolve(__dirname, './src'), 'node_modules', 'bower_components', 'shared', '/shared/vendor/modules'],
-        extensions: [".*", ".js", ".jsx", ".ts", ".tsx", ".scss"],
+        modules: [path.resolve(__dirname, './src'), 'node_modules'],
+        extensions: [".*", ".js", ".jsx", ".ts", ".tsx", ".scss"]
     },
     plugins: [
       new CleanWebpackPlugin(),
@@ -88,5 +84,5 @@ module.exports = {
         },
         compress: true,
         port: 8080
-    },
+    }
 };
