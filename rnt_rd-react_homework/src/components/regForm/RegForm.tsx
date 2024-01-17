@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { fetchRegUser, inpItems, regCreateAccount, useReg } from './regSlice';
 import { IFormData } from 'types/TypesBase';
-import ValidateForm from 'utils/validate/validateForm';
+import ValidateForm from '../../utils/validate/validateForm';
 
 import netflixBg from '../../resources/img/netflix_bg.jpg';
 import './regForm.scss';
@@ -45,7 +45,7 @@ const RegForm = () => {
             onSubmit={submitReg}
             validate={validateReg}
             render={({ handleSubmit }) => (
-                <form onSubmit={handleSubmit} className="reg">
+                <form onSubmit={handleSubmit} className="reg" data-testid="registration-page">
                     <h1 className="reg__title">Netflix Roulette</h1>
                     <h2 className="reg__subtitle">Create Account</h2>
                     {createdAcc && <h3 style={{color: 'green'}}>Successfully created!</h3>}
@@ -60,7 +60,7 @@ const RegForm = () => {
                         </Field>
                     ))}
                     <button type="submit" className="reg__btn">Create</button>
-                    <p>or <Link to='/login'><span>Sign in</span></Link></p>
+                    <p>or <Link to='/login' data-testid="login-link"><span>Sign in</span></Link></p>
 
                     <div className="reg__img">
                         <img src={netflixBg} alt='background'/>

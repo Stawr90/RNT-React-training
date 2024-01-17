@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { movieGetChar } from 'components/moviesList/moviesSlice';
+import { movieGetChar } from '../moviesList/moviesSlice';
 import { TMovie } from 'types/TypesBase';
 
 import './movieCard.scss';
@@ -12,8 +12,8 @@ const MovieCard = ({movie}: TMovie) => {
     const dispatch = useDispatch();
 
     return (
-        <li className="card" onClick={() => dispatch(movieGetChar(id))}>
-            <Link to={`/posts/${id}`}>
+        <li className="card" onClick={() => dispatch(movieGetChar(id))} data-testid={`movie-item-${id}`}>
+            <Link to={`/posts/${id}`} data-testid="info-card-link">
                 <div className="card__img">
                     <img src={img} alt={title} />
                 </div>

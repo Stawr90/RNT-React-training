@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { loginGetChar, profile, fetchLoginUser, inpItems, useLog } from './loginSlice';
 import { IFormData } from 'types/TypesBase';
-import ValidateForm from 'utils/validate/validateForm';
+import ValidateForm from '../../utils/validate/validateForm';
 
 import netflixBg from '../../resources/img/netflix_bg.jpg';
 import './loginForm.scss';
@@ -50,7 +50,7 @@ const LoginForm = () => {
             onSubmit={submitLogin}
             validate={validateLogin}
             render={({ handleSubmit }) => (
-                <form onSubmit={handleSubmit} className="login">
+                <form onSubmit={handleSubmit} className="login" data-testid="login-page">
                     <h1 className="login__title">Netflix Roulette</h1>
                     <h2 className="login__subtitle">Sign In</h2>
                     {inputItems.map(item => (
@@ -64,7 +64,7 @@ const LoginForm = () => {
                         </Field>
                     ))}
                     <button type="submit" className="login__btn">Sign In</button>
-                    <p>Don't have an account? <Link to='/registration'><span>Sign up</span></Link></p>
+                    <p>Don't have an account? <Link to='/registration' data-testid="registration-link"><span>Sign up</span></Link></p>
 
                     <div className="login__img">
                         <img src={netflixBg} alt='background'/>

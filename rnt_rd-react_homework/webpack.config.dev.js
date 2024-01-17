@@ -43,7 +43,7 @@ module.exports = {
             type: 'asset/resource',
         },
         {
-          test: /\.(png|jpe?g|gif)$/i,
+          test: /\.(png|jpe?g|gif|svg)$/i,
           use: [
             {
               loader: 'file-loader',
@@ -70,7 +70,7 @@ module.exports = {
     },
     resolve: {
         modules: [path.resolve(__dirname, './src'), 'node_modules'],
-        extensions: [".*", ".js", ".jsx", ".ts", ".tsx", ".scss"],
+        extensions: [".*", ".js", ".jsx", ".ts", ".tsx", ".scss"]
     },
     plugins: [
       new CleanWebpackPlugin(),
@@ -84,5 +84,5 @@ module.exports = {
         },
         compress: true,
         port: 8080
-    },
+    }
 };

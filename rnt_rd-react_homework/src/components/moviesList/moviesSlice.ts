@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { useHttp } from "hooks/http.hook";
-import { fetchSearchMovies } from "components/searchForm/searchSlice";
+import { fetchSearchMovies } from "../searchForm/searchSlice";
 import { SortBy, IStateMovies, IRootState } from "types/TypesBase";
 
 const initialState: IStateMovies = {
